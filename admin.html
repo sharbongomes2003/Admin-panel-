@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shrabon Gomez Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { background: #0b0e14; color: #cfd8dc; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid #30363d; }
+        h2 { color: #58a6ff; text-align: center; margin-bottom: 30px; }
+        .form-box { background: #0d1117; padding: 20px; border-radius: 8px; margin-bottom: 25px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        input, select { background: #0d1117; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 5px; min-width: 200px; }
+        button { background: #238636; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #2ea043; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { text-align: left; background: #21262d; padding: 12px; color: #8b949e; }
+        td { padding: 12px; border-bottom: 1px solid #30363d; font-size: 14px; }
+        .status-active { color: #3fb950; font-weight: bold; }
+        .del-btn { color: #f85149; text-decoration: none; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>PREMIUM MACRO CONTROL PANEL</h2>
+        
+        <div class="form-box">
+            <form action="/admin/activate" method="post" style="display:flex; gap:10px; flex-wrap:wrap;">
+                <input type="text" name="device_id" placeholder="User Device ID" required>
+                <select name="days">
+                    <option value="7">7 Days (100 Tk)</option>
+                    <option value="15">15 Days (200 Tk)</option>
+                    <option value="30">30 Days (400 Tk)</option>
+                    <option value="365">1 Year (VIP)</option>
+                </select>
+                <button type="submit">ACTIVATE LICENSE</button>
+            </form>
+        </div>
+
+        <table>
+            <tr>
+                <th>Device ID</th>
+                <th>Model</th>
+                <th>Plan</th>
+                <th>Expiry Date</th>
+                <th>Action</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.device_id }}</td>
+                <td>{{ user.model or 'N/A' }}</td>
+                <td>{{ user.plan_type }}</td>
+                <td>{{ user.expiry_date.strftime('%d-%m-%Y %H:%M') }}</td>
+                <td><a href="/admin/delete/{{ user.id }}" class="del-btn" onclick="return confirm('Delete User?')">Remove</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
